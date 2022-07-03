@@ -1,0 +1,27 @@
+
+@mixin flexible {
+
+}
+
+.Code {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 100px);
+}
+
+.code__title {
+  margin-bottom: 100px;
+}
+
+.code__form {
+  display: flex;
+  justify-content: center;
+
+  flex-direction: column;
+  background-color: whitesmoke;
+  width: 300px;
+  height: 300px;
+}

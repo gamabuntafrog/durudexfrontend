@@ -1,0 +1,91 @@
+.Post {
+    text-align: center;
+    max-width: 80%;
+    background-color: whitesmoke;
+    color: #282c34;
+    margin: 0 auto;
+    //border-radius: 5px;
+    padding: 20px 0;
+    height: calc(100vh - 100px);
+    >h1{
+        font-size: 50px;
+    }
+    box-shadow: 6px 10px 85px 4px rgba(0,0,0,0.49);
+
+}
+
+.post__button {
+    padding: 10px;
+    margin: 10px;
+    background: #0F2027;
+    color: whitesmoke;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+.post__input {
+    padding: 10px;
+    margin: 10px;
+    border: #0F2027 solid 3px;
+    border-radius: 5px;
+}
+
+.post__card {
+    padding: 20px;
+    margin: 40px;
+
+    .post__card__title {
+        font-size: 30px;
+    }
+    .post__card__text {
+        font-size: 18px;
+    }
+    .post__card__date {
+
+    }
+    .post__card__title,
+    .post__card__text,
+    .post__card__date{
+        margin: 10px;
+    }
+
+    > button {
+        //background-color: black;
+    }
+}
+
+.fakePost__card {
+    padding: 20px;
+    margin: 40px;
+
+    h1, h2, h3, p {
+        background-color: #282c34;
+        display: inline-block;
+        padding: 2px;
+    }
+    .fakePost__card__title {
+        font-size: 30px;
+
+    }
+    .fakePost__card__text {
+        font-size: 18px;
+
+    }
+    .post__card__date {
+
+    }
+    .fakePost__card__title,
+    .fakePost__card__text,
+    .fakePost__card__date{
+        margin: 10px;
+    }
+
+    > button {
+        //background-color: black;
+    }
+}
+
+.post__loading {
+    margin-top: 100px;
+}

@@ -1,0 +1,63 @@
+@import "../../scss/_variables.scss";
+
+@mixin link {
+  font-weight: 600;
+  font-size: 30px;
+  padding: 10px;
+  text-decoration: none;
+  transition: 0.5s;
+
+  &:hover {
+    transition: 0.5s;
+    margin: 0 10px;
+    color: #0093E9;
+
+  }
+}
+
+.Header {
+  background: $darkFirst;  /* fallback for old browsers */
+  padding: 0 10px;
+  box-shadow: 6px 10px 85px 4px rgba(0,0,0,0.49);
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+
+  nav {
+    width: 100%;
+  }
+
+  li:last-child {
+    margin-left: auto;
+  }
+
+}
+
+.username {
+  margin-left: auto;
+}
+
+.nav__list {
+  display: flex;
+
+
+}
+
+.nav__link {
+  @include link ();
+
+  color: whitesmoke;
+
+  &:hover {
+
+
+  }
+}
+
+.nav__link__active {
+  @include link ();
+
+  -webkit-text-stroke: 3px #0093E9;
+
+  color: #0093E9;
+}
