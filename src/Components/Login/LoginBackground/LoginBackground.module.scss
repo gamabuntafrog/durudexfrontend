@@ -39,12 +39,11 @@
 
 .text {
   filter: blur(1px);
-  width: 100vw;
   height: calc(100vh);
   white-space: nowrap;
   pointer-events: none;
   text-shadow: 0 0 10px #fff;
-  font-size: 50px;
+  font-size: 35px;
 
   display: inline-block;
   margin: 20px;
@@ -57,7 +56,7 @@
     animation: reverseAnimatePosition 6s ease-in-out infinite;
   }
   h2 {
-    -webkit-text-stroke: 8px #80D0C7;
+    -webkit-text-stroke: 5px #80D0C7;
     font-weight: 500;
     padding: 25px;
     margin: 25px;
@@ -67,6 +66,43 @@
 
     &:nth-child(even) {
       animation: animateColor 6s reverse infinite;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .text {
+    filter: blur(1px);
+    height: calc(100vh);
+    white-space: normal;
+    pointer-events: none;
+    text-shadow: 0 0 10px #fff;
+    font-size: 25px;
+
+    display: inline-block;
+    margin: 20px;
+    transform: skewY(345deg);
+
+    &:nth-child(even) {
+      animation: animatePosition 6s ease-in-out infinite;
+    }
+
+    &:nth-child(odd) {
+      animation: reverseAnimatePosition 6s ease-in-out infinite;
+    }
+
+    h2 {
+      -webkit-text-stroke: 3px #80D0C7;
+      font-weight: 500;
+      padding: 25px;
+      margin: 25px;
+      box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.25);
+      animation: animateColor 3s ease-in-out infinite;
+      transition: 1s;
+
+      &:nth-child(even) {
+        animation: animateColor 6s reverse infinite;
+      }
     }
   }
 }

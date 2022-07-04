@@ -18,6 +18,11 @@
 
 button {
     cursor: pointer;
+
+    &:focus {
+        outline: none;
+
+    }
 }
 
 a {
