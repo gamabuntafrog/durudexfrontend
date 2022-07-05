@@ -10,12 +10,14 @@ import Auth from "./Components/Auth";
 import Header from "./Components/Header";
 import User from "./Components/User";
 import Posts from "./Components/Posts";
-import {Context, tokensType, userType} from "./index";
+import {Context} from "./index";
 import {GET_USER} from "./query/user";
 import {tokens as importedTokens} from "./index";
 import {Bars} from "react-loader-spinner";
 import Loader from "./Components/Loader";
 import ForgotPassword from "./Components/ForgotPassword";
+import { userType } from './types/user';
+import {tokensType} from "./types/auth";
 
 function App() {
 
@@ -27,13 +29,11 @@ function App() {
     const [tokens, setTokens] = useState<tokensType | null>(null);
 
     useEffect(() => {
-
         if (importedTokens) {
             setTokens(JSON.parse(importedTokens))
             fetchUser()
         } else {
             setIsLoading(false)
-
         }
         console.log(tokens)
 

@@ -43,7 +43,6 @@ const LoginBackground: FC<LoginBackgroundBackgroundProps> = ({username = ''}) =>
                 <h2>Welcome {username}</h2>
                 <h2>{username}</h2>
                 <h2>Welcome {username}</h2>
-
             </div>
         })}
     </>
