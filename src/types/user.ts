@@ -1,4 +1,3 @@
-
 export type userType = {
     id: string | null,
     username: string | null,

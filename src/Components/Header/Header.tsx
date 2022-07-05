@@ -1,13 +1,11 @@
-import {useState, useEffect, FC, useId, useContext} from "react"
-import {NavLink, useLocation, useMatch} from "react-router-dom";
+import React, {useState, useEffect, FC, useContext} from "react"
+import {NavLink} from "react-router-dom";
 import styles from "./header.module.scss"
 import {Context} from "../../index";
 
 const Header: FC = () => {
 
     const {user} = useContext(Context)!
-    console.log(user)
-
 
     if (user) {
         return (

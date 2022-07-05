@@ -1,23 +1,21 @@
-import React, {useContext, useEffect, useMemo, useState} from 'react';
 import './App.scss';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import React, { useEffect, useMemo, useState} from 'react';
+import { Navigate, Route, Routes} from 'react-router-dom';
 import {useLazyQuery} from "@apollo/client";
-import Post from "./Components/Post";
-import {BrowserRouter, Navigate, Outlet, Route, Routes} from 'react-router-dom';
+import {Context} from "./index";
+import {GET_USER} from "./query/user";
+import {tokens as importedTokens} from "./index";
+import ForgotPassword from "./Components/ForgotPassword";
+import { userType } from './types/user';
+import {tokensType} from "./types/auth";
 import Login from "./Components/Login";
-import Code from "./Components/Code";
 import Auth from "./Components/Auth";
 import Header from "./Components/Header";
 import User from "./Components/User";
 import Posts from "./Components/Posts";
-import {Context} from "./index";
-import {GET_USER} from "./query/user";
-import {tokens as importedTokens} from "./index";
-import {Bars} from "react-loader-spinner";
+import Post from "./Components/Post";
 import Loader from "./Components/Loader";
-import ForgotPassword from "./Components/ForgotPassword";
-import { userType } from './types/user';
-import {tokensType} from "./types/auth";
 
 function App() {
 
@@ -35,21 +33,15 @@ function App() {
         } else {
             setIsLoading(false)
         }
-        console.log(tokens)
-
-        console.log(user)
     }, []);
 
     useEffect(() => {
-
-
         if (userData) {
             setUser(userData.me)
             setIsLoading(false)
 
         }
 
-        console.log(userData)
     }, [userData]);
 
 
@@ -109,7 +101,6 @@ function App() {
                         <Route path={'post/:id'} element={<Post/>} />
                         <Route path={'post'} element={<Navigate to={`/post/${randomId}`} replace />} />
                         <Route path={'login'} element={<Login/>}/>
-                        <Route path={'code'} element={<Code/>}/>
                         <Route path={'auth'} element={<Auth/>}/>
                         <Route path={'forgotPassword'} element={<ForgotPassword/>}/>
                         <Route path={'/'} element={<Posts/>}/>

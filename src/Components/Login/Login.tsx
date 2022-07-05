@@ -1,6 +1,6 @@
 import styles from './login.module.scss'
 import { useForm, SubmitHandler } from "react-hook-form";
-import React, {useEffect, useContext} from "react"
+import React, {useEffect, useContext, FC} from "react"
 import {NavLink, useNavigate} from "react-router-dom";
 import {LOGIN} from '../../query/user'
 import {useMutation} from '@apollo/client';
@@ -14,9 +14,7 @@ type Inputs = {
 
 let regexForEmail = new RegExp('^[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*$')
 
-
-
-const Login = () => {
+const Login: FC = () => {
     const context = useContext(Context)!
 
     const [tryLogin, {data, loading, error}] = useMutation(LOGIN);

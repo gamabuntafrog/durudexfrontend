@@ -5,7 +5,6 @@ import {GET_POST} from "../../query/post";
 import {IPost} from "../../types/post";
 import styles from './post.module.scss'
 import { Context } from "../..";
-import Loader from "../Loader";
 
 
 const Post: FC = () => {
@@ -28,8 +27,6 @@ const Post: FC = () => {
         if (data) {
             setPost(data.post)
             setIsLoading(false)
-
-            console.log(data)
         }
     }, [data]);
 
@@ -63,7 +60,7 @@ const Post: FC = () => {
         // Заглушка поки не прийдуть дані з бекенду
 
         return (
-            <div className={styles.Post}>
+            <section className={styles.Post}>
                 <div>
                     <button className={styles.post__button} onClick={getRandomPost}>Отримати рандомний пост</button>
                     <button className={styles.post__button} onClick={getSeparatePost} >Отримати пост по id</button>
@@ -83,13 +80,13 @@ const Post: FC = () => {
                 </div>
                 <button className={styles.post__button}>Видалити цей пост</button>
                 <button className={styles.post__button}>Змінити цей пост</button>
-            </div>
+            </section>
         )
     }
 
     if (!post) {
         return (
-            <div className={styles.Post}>
+            <section className={styles.Post}>
                 <h1>Не знайдено</h1>
                 <div>
                     <button className={styles.post__button} onClick={getRandomPost}>Отримати рандомний пост</button>
@@ -102,13 +99,13 @@ const Post: FC = () => {
                         setNewId(e.target.value)
                     }} placeholder={'Обовязково цифри'} type={"number"}/>
                 </div>
-            </div>
+            </section>
         )
     }
 
 
     return (
-        <div className={styles.Post}>
+        <section className={styles.Post}>
             <div>
                 <button className={styles.post__button} onClick={getRandomPost}>Отримати рандомний пост</button>
                 <button className={styles.post__button} onClick={getSeparatePost} >Отримати пост по id</button>
@@ -127,7 +124,7 @@ const Post: FC = () => {
 
             <button className={styles.post__button}>Видалити цей пост</button>
             <button className={styles.post__button}>Змінити цей пост</button>
-        </div>
+        </section>
     )
 }
 
