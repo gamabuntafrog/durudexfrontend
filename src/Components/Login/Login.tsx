@@ -59,7 +59,7 @@ const Login = () => {
 
 
     return (
-        <div className={styles.Login}>
+        <section className={styles.Login}>
             <LoginBackground username={watch('username')}/>
             <div className={styles.container}>
                 <div className={styles.aside}>
@@ -105,7 +105,7 @@ const Login = () => {
                     </form>
                 </div>
             </div>
-        </div>
+        </section>
     )
 }
 

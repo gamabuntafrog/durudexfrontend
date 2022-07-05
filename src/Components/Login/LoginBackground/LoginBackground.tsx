@@ -27,9 +27,7 @@ const useWindowWidth = () => {
 
 const LoginBackground = ({username = ''}: LoginBackgroundBackgroundProps) => {
 
-
     const width: string = useWindowWidth()
-
 
     let amountOfColumns
 
@@ -61,7 +59,6 @@ const LoginBackground = ({username = ''}: LoginBackgroundBackgroundProps) => {
             </div>
         })}
     </>
-
 
 }
 

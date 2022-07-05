@@ -104,6 +104,7 @@ function App() {
 
                 <div className="App">
                     <Header/>
+                    <main>
                     <Routes>
                         <Route path={'post/:id'} element={<Post/>} />
                         <Route path={'post'} element={<Navigate to={`/post/${randomId}`} replace />} />
@@ -117,6 +118,8 @@ function App() {
                             element={<Navigate to="/post" replace />}
                         />
                     </Routes>
+                    </main>
+
                 </div>
                 {isLoading && <Loader/>}
             </Context.Provider>
