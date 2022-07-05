@@ -1,9 +1,9 @@
 import styles from './login.module.scss'
 import { useForm, SubmitHandler } from "react-hook-form";
-import React, {useState, useEffect, useContext, useCallback, useMemo} from "react"
+import React, {useEffect, useContext} from "react"
 import {NavLink, useNavigate} from "react-router-dom";
-import {GET_USER, LOGIN} from '../../query/user'
-import {useLazyQuery, useMutation, useQuery} from '@apollo/client';
+import {LOGIN} from '../../query/user'
+import {useMutation} from '@apollo/client';
 import {Context} from "../../index";
 import LoginBackground from "./LoginBackground";
 

@@ -1,42 +1,30 @@
-import React, {useEffect, useState} from "react"
+import React, {FC} from "react"
 import styles from "./LoginBackground.module.scss";
+import {screenTypes, useGetTypeOfScreen} from "../../../hooks/useGetTypeOfScreen";
 
 type LoginBackgroundBackgroundProps = {
     username: string
 }
 
-const useWindowWidth = () => {
-    const [width, setWidth] = useState<string>('medium');
+const LoginBackground: FC<LoginBackgroundBackgroundProps> = ({username = ''}) => {
 
-    useEffect(() => {
-        const handleWidth = () => {
-            if (window.innerWidth > 1280) {
-                setWidth('large')
-            } else if (window.innerWidth > 768 && window.innerWidth < 1280) {
-                setWidth('medium')
-            } else if (window.innerWidth < 768) {
-                setWidth('small')
-            }
-        }
-        handleWidth()
-        window.addEventListener('resize', handleWidth)
-    }, []);
-
-    return width
-}
-
-const LoginBackground = ({username = ''}: LoginBackgroundBackgroundProps) => {
-
-    const width: string = useWindowWidth()
+    const screen: screenTypes = useGetTypeOfScreen()
 
     let amountOfColumns
 
-    if (width === 'small') {
-        amountOfColumns = [1,2]
-    } else if (width === 'medium') {
-        amountOfColumns = [1,2,3,4]
-    } else {
-        amountOfColumns = [1,2,3,4,5,6]
+    switch (screen) {
+        case screenTypes.largeType:
+            amountOfColumns = [1,2,3,4,5,6]
+            break
+        case screenTypes.mediumType:
+            amountOfColumns = [1,2,3,4]
+            break
+        case screenTypes.smallType:
+            amountOfColumns = [1,2]
+            break
+        default:
+            amountOfColumns = [1,2,3,4]
+            break
     }
 
     username = `@${username}`
