@@ -22,7 +22,9 @@ const Login = () => {
     const [tryLogin, {data, loading, error}] = useMutation(LOGIN);
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
-    const isValidUsername = regexForEmail.test(watch('username'))
+
+    const isUsernameInputEmpty: boolean = watch('username') === ''
+    const isValidUsername = isUsernameInputEmpty ? true : regexForEmail.test(watch('username'))
 
     const navigate = useNavigate()
 

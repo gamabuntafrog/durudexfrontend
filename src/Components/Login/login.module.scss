@@ -12,34 +12,146 @@ $second: #4F506A;
 
   }
 }
-@keyframes animateAsideArrivalReverse {
-  from {
-    width: 483px;
+
+.Login {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(245.03deg, #9D1CED 8.14%, #1C24ED 92.58%);
+  width: 100vw;
+  height: calc(100vh - 100px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  text-align: center;
+  color: $second;
+
+  h1, p {
+    cursor: default;
 
   }
 
-  to {
-    width: 0px;
-
+  h1 {
+    margin-top: 90px;
+    margin-bottom: 15px;
+    color: $third;
+    font-style: normal;
+    font-size: 50px;
+    line-height: 61px;
+  }
+  p {
+    font-style: normal;
+    font-size: 32px;
+    line-height: 39px;
   }
 }
-@media screen and (min-width: 1280px) and (max-width: 1920px) {
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 1240px;
+  width: 90vw;
+  max-width: 1330px;
+  height: 775px;
+  background-color: #FFFFFF;
+  box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 30px;
+  display: flex;
+}
+
+.login__container {
+  margin: 0 auto;
+  width: 90%;
+}
+
+.fieldsAreRequired {
+  color: crimson;
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.forgotPasswordLink {
+  display: inline-block;
+  margin-left: auto;
+}
+
+.login__form {
+  text-align: start;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-size: 25px;
+    line-height: 30px;
+    margin-bottom: 15px;
+  }
+
+  input {
+    background: #FFFFFF;
+    border: 1px solid #9104FF;
+    border-radius: 11px;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+  .inputIfError {
+    color: crimson;
+    border: 2px solid crimson;
+  }
+
+  .login__submit {
+    height: 53px;
+    border: none;
+    margin-top: 120px;
+    margin-bottom: 15px;
+    border-radius: 13px;
+    background-color: $third;
+    font-size: 30px;
+    line-height: 37px;
+    color: #FFFFFF;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      background-color: #6b00bf;
+    }
+
+  }
+
+  a {
+    font-size: 20px;
+    line-height: 24px;
+    text-decoration: none;
+    text-align: end;
+    transition: 0.35s;
+
+    &:hover {
+      color: $third;
+      transition: 0.35s;
+    }
+  }
+
+
+
+  .dontHave__account {
+    margin: 0 auto;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  // почистити стилі
+
   .Login {
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(245.03deg, #9D1CED 8.14%, #1C24ED 92.58%);
-    width: 100vw;
-    height: calc(100vh - 100px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-    text-align: center;
-    color: $second;
 
-    h1, p {
-      cursor: default;
-
+    .container {
+      min-width: 1240px;
+      width: 90vw;
+      max-width: 1330px;
+      height: calc(80vh);
     }
 
     h1 {
@@ -57,141 +169,56 @@ $second: #4F506A;
     }
   }
 
-  .container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 1240px;
-    width: 90vw;
-    max-width: 1330px;
-    height: 775px;
-    background-color: #FFFFFF;
-    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.25);
-    border-radius: 30px;
-    display: flex;
-    //justify-content: center;
-  }
-
   .aside {
-    //width: 483px;
-    height: 775px;
-    background: linear-gradient(0deg, rgba(115, 91, 135, 0.4), rgba(115, 91, 135, 0.4)), url(../images/aside.png);
+    height: 100%;
+    background: url(../images/aside.png);
     background-size: cover;
     background-repeat: no-repeat;
     transition: 1s;
 
-    border-radius: 30px 0px 0px 30px;
-
     animation: 1s animateAsideArrival 0.3s ease-in-out forwards;
 
+    border-radius: 30px 0px 0px 30px;
   }
 
   .login__container {
     margin: 0 auto;
     width: 50%;
-
   }
 
   .fieldsAreRequired {
-    color: crimson;
-    font-weight: 800;
-    font-size: 20px;
     margin: 5px 0;
     margin-left: 5px;
   }
 
-
-  .forgotPasswordLink {
-    display: inline-block;
-    margin-left: auto;
+  .dontHave__account {
+    margin: 0 auto;
   }
+}
 
-  .login__form {
-    text-align: start;
-    display: flex;
-    flex-direction: column;
 
-    label {
-      font-size: 25px;
-      line-height: 30px;
-      margin-bottom: 15px;
+
+@media screen and (min-width: 2160px) {
+  .Login {
+    .aside {
+      background-size: contain;
     }
-
-    input {
-      background: #FFFFFF;
-      border: 1px solid #9104FF;
-      border-radius: 11px;
-      padding: 15px 20px;
-      margin-bottom: 25px;
-      font-weight: 500;
-      font-size: 16px;
-    }
-
-    .inputIfError {
-      color: crimson;
-      border: 2px solid crimson;
-    }
-
-    .login__submit {
-      height: 53px;
-      border: none;
-      margin-top: 120px;
-      margin-bottom: 15px;
-      border-radius: 13px;
-      background-color: $third;
-      font-size: 30px;
-      line-height: 37px;
-      color: #FFFFFF;
-      cursor: pointer;
-
-      &:hover,
-      &:focus {
-        background-color: #6b00bf;
-      }
-
-    }
-
-    a {
-      font-size: 20px;
-      line-height: 24px;
-      text-decoration: none;
-      text-align: end;
-      transition: 0.35s;
-
-      &:hover {
-        color: $third;
-        transition: 0.35s;
-      }
-    }
-
-
-
-    .dontHave__account {
-      margin: 0 auto;
+    .container {
+      height: 50vh
     }
   }
+}
 
+@media screen and (max-height: 720px) {
+  .Login {
+    h1 {
+      margin-top: 20px;
+    }
+  }
 }
 
 @media screen and (min-width: 768px) and (max-width: 1280px) {
   .Login {
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(245.03deg, #9D1CED 8.14%, #1C24ED 92.58%);
-    width: 100vw;
-    height: calc(100vh - 100px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-    text-align: center;
-    color: $second;
-
-    h1, p {
-      cursor: default;
-
-    }
 
     h1 {
       margin-top: 30px;
@@ -209,65 +236,33 @@ $second: #4F506A;
   }
 
   .container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     min-width: 748px;
     width: 90vw;
     max-width: 1000px;
     height: 590px;
-    background-color: #FFFFFF;
-    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.25);
-    border-radius: 30px;
-    display: flex;
-    //justify-content: center;
   }
 
   .aside {
    display: none;
-
   }
 
   .login__container {
     margin: 0 auto;
     width: 90%;
-
   }
 
   .fieldsAreRequired {
-    color: crimson;
-    font-weight: 800;
-    font-size: 20px;
     margin: 5px 0;
     margin-left: 5px;
   }
 
 
-  .forgotPasswordLink {
-    display: inline-block;
-    margin-left: auto;
-  }
 
   .login__form {
-    text-align: start;
-    display: flex;
-    flex-direction: column;
-
-    label {
-      font-size: 25px;
-      line-height: 30px;
-      margin-bottom: 15px;
-    }
 
     input {
-      background: #FFFFFF;
-      border: 1px solid #9104FF;
-      border-radius: 11px;
       padding: 15px 20px;
       margin-bottom: 25px;
-      font-weight: 500;
-      font-size: 16px;
     }
 
     .inputIfError {
@@ -276,16 +271,11 @@ $second: #4F506A;
     }
 
     .login__submit {
-      height: 53px;
-      border: none;
       margin-top: 40px;
       margin-bottom: 15px;
       border-radius: 13px;
-      background-color: $third;
       font-size: 30px;
       line-height: 37px;
-      color: #FFFFFF;
-      cursor: pointer;
 
       &:hover,
       &:focus {
@@ -297,17 +287,7 @@ $second: #4F506A;
     a {
       font-size: 20px;
       line-height: 24px;
-      text-decoration: none;
-      text-align: end;
-      transition: 0.35s;
-
-      &:hover {
-        color: $third;
-        transition: 0.35s;
-      }
     }
-
-
 
     .dontHave__account {
       margin: 0 auto;
@@ -318,26 +298,10 @@ $second: #4F506A;
 
 @media screen and (max-width: 768px) {
   .Login {
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(245.03deg, #9D1CED 8.14%, #1C24ED 92.58%);
-    width: 100vw;
-    height: calc(100vh - 100px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-    text-align: center;
-    color: $second;
-
-    h1, p {
-      cursor: default;
-
-    }
 
     h1 {
-      margin-top: 40px;
-      margin-bottom: 15px;
+      margin-top: 10px;
+      margin-bottom: 5px;
       color: $third;
       font-style: normal;
       font-size: 50px;
@@ -345,71 +309,43 @@ $second: #4F506A;
     }
     p {
       font-style: normal;
-      font-size: 32px;
-      line-height: 39px;
+      font-size: 23px;
+      line-height: 29px;
     }
   }
 
   .container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     min-width: 300px;
     width: 95vw;
     max-width: 748px;
-    min-height: 663px;
-    background-color: #FFFFFF;
-    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.25);
-    border-radius: 30px;
-    display: flex;
-    //justify-content: center;
+    min-height: 463px;
+    height: calc(100vh - 120px);
+    max-height: 600px;
   }
 
   .aside {
     display: none;
-
   }
-
-  .login__container {
-    margin: 0 auto;
-    width: 90%;
-
-  }
-
-  .fieldsAreRequired {
-    color: crimson;
-    font-weight: 800;
-    font-size: 20px;
-    margin: 5px 0;
-    margin-left: 5px;
-  }
-
 
   .forgotPasswordLink {
-    display: inline-block;
-    margin-left: auto;
+    margin-bottom: 5px;
   }
 
   .login__form {
-    text-align: start;
-    display: flex;
-    flex-direction: column;
+    min-height: 316px;
+    height: 50vh;
+    max-height: 400px;
 
     label {
       font-size: 15px;
       line-height: 20px;
-      margin-bottom: 15px;
+      margin: 5px 0;
+      margin-left: 5px;
     }
 
     input {
-      background: #FFFFFF;
-      border: 1px solid #9104FF;
-      border-radius: 11px;
       padding: 15px 20px;
       margin-bottom: 25px;
-      font-weight: 500;
-      font-size: 16px;
     }
 
     .inputIfError {
@@ -418,16 +354,12 @@ $second: #4F506A;
     }
 
     .login__submit {
-      height: 53px;
-      border: none;
-      margin-top: 50px;
+      margin-top: auto;
       margin-bottom: 15px;
       border-radius: 13px;
       background-color: $third;
       font-size: 30px;
       line-height: 37px;
-      color: #FFFFFF;
-      cursor: pointer;
 
       &:hover,
       &:focus {
@@ -439,17 +371,7 @@ $second: #4F506A;
     a {
       font-size: 20px;
       line-height: 24px;
-      text-decoration: none;
-      text-align: end;
-      transition: 0.35s;
-
-      &:hover {
-        color: $third;
-        transition: 0.35s;
-      }
     }
-
-
 
     .dontHave__account {
       margin: 0 auto;
