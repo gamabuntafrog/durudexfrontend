@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react"
 import styles from "./auth.module.scss";
-import logo from '../images/logo.png'
+import logo from '../../images/logo.png'
 import {NavLink} from "react-router-dom";
 const Auth = () => {
 

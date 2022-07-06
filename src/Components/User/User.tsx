@@ -1,39 +1,39 @@
-import {useState, useEffect, useContext} from "react"
+import {useState, useEffect, useContext, FC} from "react"
 import styles from './user.module.scss'
-import {Context, tokens} from "../../index";
+import {Context} from "../../index";
 import { Navigate, useNavigate } from "react-router-dom";
 import {useMutation} from "@apollo/client";
 import {LOGOUT} from "../../query/user";
 
 
-const User = () => {
+const User: FC = () => {
 
-    const {user, getUser, getTokens, isLoading, setIsLoading} = useContext(Context)!;
+    const {user, tokens, getUser, getTokens, isLoading, setIsLoading} = useContext(Context)!;
     const [logOut, {data, loading, error}] = useMutation(LOGOUT)
 
 
     const navigate = useNavigate()
 
     const tryLogOut = () => {
-        const parsedTokens = JSON.parse(tokens!);
+
 
         logOut({
             variables: {
-                token: parsedTokens.refreshToken
+                token: tokens!.refreshToken
             }
         })
     }
 
 
     useEffect(() => {
-        if (data) {
-            if (data.signOut) {
+        if (data && data.signOut) {
+
                 setIsLoading(true)
                 localStorage.removeItem('tokens')
                 getUser(null)
                 getTokens(null)
                 navigate('/post')
-            }
+
         }
     }, [data]);
 

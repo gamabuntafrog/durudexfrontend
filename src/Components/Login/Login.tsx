@@ -2,10 +2,11 @@ import styles from './login.module.scss'
 import { useForm, SubmitHandler } from "react-hook-form";
 import React, {useEffect, useContext, FC} from "react"
 import {NavLink, useNavigate} from "react-router-dom";
-import {LOGIN} from '../../query/user'
-import {useMutation} from '@apollo/client';
+import {GET_USER, LOGIN} from '../../query/user'
+import {useLazyQuery, useMutation} from '@apollo/client';
 import {Context} from "../../index";
 import LoginBackground from "./LoginBackground";
+import {userType} from "../../types/user";
 
 type Inputs = {
     username: string,
@@ -17,7 +18,26 @@ let regexForEmail = new RegExp('^[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*$')
 const Login: FC = () => {
     const context = useContext(Context)!
 
-    const [tryLogin, {data, loading, error}] = useMutation(LOGIN);
+    const [fetchUser, {data: userData, loading: userLoading, error: userError}] = useLazyQuery(GET_USER, {
+        onCompleted: (userData: {me: userType}) => {
+            // setUser(userData.me)
+            // setIsLoading(false)
+        },
+        fetchPolicy: 'network-only'
+    })
+    const [tryLogin, {data, loading, error}] = useMutation(LOGIN, {
+        onCompleted: (data) => {
+            const {access, refresh} = data.signIn
+            const tokens = {
+                accessToken: access,
+                refreshToken: refresh
+            }
+            context.getTokens(tokens)
+
+            localStorage.setItem('tokens', JSON.stringify(tokens))
+            fetchUser()
+        }
+    });
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
 
@@ -32,7 +52,8 @@ const Login: FC = () => {
                 variables: {
                     username: username,
                     password: password
-                }
+                },
+
             })
         }
     };
@@ -40,16 +61,9 @@ const Login: FC = () => {
 
     useEffect(() => {
         if (data) {
-            const {access, refresh} = data.signIn
-            const tokens = {
-                accessToken: access,
-                refreshToken: refresh
-            }
-            context.getTokens(tokens)
 
-            localStorage.setItem('tokens', JSON.stringify(tokens))
             navigate('/', { replace: true })
-            document.location.reload()
+            // document.location.reload()
         }
     }, [data]);
 

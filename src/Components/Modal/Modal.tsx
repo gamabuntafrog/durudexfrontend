@@ -1,7 +1,11 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect, FC, ReactNode} from "react"
 import styles from './modal.module.scss';
 
-const Modal = ({children}: any) => {
+type ModalPropTypes = {
+    children: ReactNode
+}
+
+const Modal: FC<ModalPropTypes> = ({children}) => {
 
     return (
         <div className={styles.modalBackdrop}>

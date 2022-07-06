@@ -1,7 +1,7 @@
-import {useState, useEffect} from "react"
+import {useState, useEffect, FC} from "react"
 import styles from './posts.module.scss';
 
-const Posts = () => {
+const Posts: FC = () => {
     
     
     

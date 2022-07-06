@@ -1,91 +1,63 @@
-import React, {useState, useEffect, useRef, ChangeEvent} from "react"
+import React, {useState, useEffect, useRef, ChangeEvent, FC, useId} from "react"
 import styles from './forgotPassword.module.scss';
 import {SubmitHandler, useForm} from "react-hook-form";
-import {NavLink, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Modal from "../Modal";
 import ForgotPasswordBackground from "./ForgotPasswordBackground/ForgotPasswordBackground";
 import {useMutation} from "@apollo/client";
-import {CHANGE_PASSWORD, CREATE_VERIFY_EMAIL_CODE} from "../../query/user";
+import {CREATE_VERIFY_EMAIL_CODE} from "../../query/user";
+import ForgotPasswordStep3 from "./ForgotPasswordStep3";
 
-type Inputs = {
+type Input = {
     email: string,
 };
 
-type PasswordInputs = {
-    passwordOne: string,
-    passwordTwo: string
+export type userInputDataType = {
+    email: string,
+    code: string,
+    newPassword: string,
 }
 
-let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+let regexForEmail = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])");
 
-const ForgotPassword = () => {
+const ForgotPassword: FC = () => {
+
+    const emailId = useId()
 
     const [tryCreateVerify, {data, loading, error}] = useMutation(CREATE_VERIFY_EMAIL_CODE)
-    const [tryChangePassword, {data: passwordData, loading: passwordLoading, error: passwordError}] = useMutation(CHANGE_PASSWORD)
 
-    const [userInputData, setUserInputData] = useState({email: "", code: "", newPassword: ""});
+    const [userInputData, setUserInputData] = useState<userInputDataType>({email: "", code: "", newPassword: ""});
     const [step, setStep] = useState(1);
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const isEmailValidate = regex.test(watch('email'))
-    const navigate = useNavigate();
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<Input>({mode: "onBlur"});
 
     const inputWrapper = useRef<HTMLDivElement | null>(null)!
 
+    console.log(errors.email)
 
-    const onSubmitEmail: SubmitHandler<Inputs | any> = (data) => {
-        // console.log(data);
-        const email = data.email
-        if (regex.test(watch('email'))) {
+    const onSubmitEmail: SubmitHandler<Input> = ({email}) => {
+        if (regexForEmail.test(watch('email'))) {
             tryCreateVerify({
                 variables: {
-                    email: data.email
+                    email: email
                 }
             })
             setUserInputData(prev => {return {...prev, email: email}})
-            setStep(2)
         }
-
     }
-    const onSubmitPassword: SubmitHandler<PasswordInputs | any> = (data) => {
-        console.log(data);
-        console.log(errors)
-        console.log(userInputData)
-        const passwordOne = data.passwordOne
-
-        if (watch('passwordOne') === watch('passwordTwo')) {
-            setUserInputData(prev => {return {...prev, newPassword: passwordOne}})
-            tryChangePassword({
-                variables: {
-                    email: userInputData.email,
-                    code: userInputData.code,
-                    password: passwordOne
-                }
-            })
-            navigate('/auth')
-
-        }
-
-    }
-
 
     useEffect(() => {
-        console.log(passwordData)
-    }, [passwordData])
-
-
-    const classNameEmailInputOnVerify = !isEmailValidate ? styles.inputIfError : errors.email ? styles.inputIfError : ''
-    const isPasswordEqual = watch('passwordOne') === watch('passwordTwo')
-    const classNameLabelOnVerify = !isPasswordEqual ? styles.fieldsAreRequired : errors.passwordOne ? styles.fieldsAreRequired : ''
-    const classNamePasswordInputOnVerify = !isPasswordEqual ? styles.inputIfError : errors.passwordOne ? styles.inputIfError : ''
-
-
-
+        if (data) {
+            setStep(2)
+        }
+        if (error) {
+            console.log(error)
+            alert('Сталася помилка')
+        }
+    }, [data, error]);
 
     const inputAutofocus = (e: ChangeEvent<HTMLInputElement>) => {
         const id = Number(e.target.id)
-
-        // console.log(inputWrapper.current?.childNodes[0].textContent)
 
         if (id === 7) {
             return
@@ -137,10 +109,18 @@ const ForgotPassword = () => {
                     <div className={styles.leftAside}>
                         <h1 className={styles.forgotPassword__title}>Забули пароль</h1>
                         <form className={styles.email__form} onSubmit={handleSubmit(onSubmitEmail)}>
-                            {isEmailValidate ?
-                                <label>Email</label> :
-                                <span className={styles.fieldsAreRequired}>Неправильний email</span>}
-                            <input className={classNameEmailInputOnVerify} placeholder={'Email'} type={'email'} {...register("email")} />
+                            {errors.email ?
+                                <label htmlFor={emailId} className={styles.fieldsAreRequired}>{errors.email.message}</label>
+                                :
+                                <label htmlFor={emailId}>Email</label>
+                            }
+                            <input id={emailId} className={errors.email ? styles.inputIfError : ''} placeholder={'Email'} type={'email'} {...register("email", {
+                                pattern: {
+                                    value: regexForEmail,
+                                    message: 'Неправильний емейл'
+                                },
+
+                            })} />
 
                             <button className={styles.email__submit} type="submit" >
                                 Увійти
@@ -149,43 +129,13 @@ const ForgotPassword = () => {
                         </form>
                     </div>
                 }
-
-                {step === 3 &&
-                    <div className={styles.leftAside}>
-                        <h1 className={styles.forgotPassword__title}>Змінити пароль</h1>
-                        <form className={styles.password__form} onSubmit={handleSubmit(onSubmitPassword)}>
-                            <label className={classNameLabelOnVerify}>Password</label>
-                            <input className={classNamePasswordInputOnVerify} placeholder={'Password'} type={'password'} {...register("passwordOne",
-                                {
-                                    required: 'Поле обовязкове для заповнення',
-                                    minLength: 8
-                                })} />
-	                        <label className={classNameLabelOnVerify}>Return password</label>
-                            <input className={classNamePasswordInputOnVerify} placeholder={'Return password'} type={'password'} {...register("passwordTwo", {
-                                    required: 'Поле обовязкове для заповнення',
-                                    minLength: 8
-                                })} />
-                            {!isPasswordEqual ?
-                                <span className={styles.fieldsAreRequired}>Паролі не співпадають</span> :
-                                (errors.passwordOne || errors.passwordTwo) ?
-                                <span className={styles.fieldsAreRequired}>Мінімальна довжина 8 символів</span>: ''
-                            }
-
-                            <button className={styles.password__submit} type="submit" >
-                                Змінити пароль
-                            </button>
-
-                        </form>
-                    </div>
-                }
-	        </div>
-             {step === 2 &&
-		         <Modal>
-			         <div className={styles.verifyEmail}>
-				         <p>
-					         Щоб завершити налаштування аккаунту, будь ласка підтвердіть свою електронну адресу.
-					         Введіть код безпеки, надісланий на вашу електронну адресу, а потім натисніть кнопку нижче.
-				         </p>
+                 {step === 2 &&
+                     <Modal>
+                         <div className={styles.verifyEmail}>
+                             <p>
+                                 Щоб завершити налаштування аккаунту, будь ласка підтвердіть свою електронну адресу.
+                                 Введіть код безпеки, надісланий на вашу електронну адресу, а потім натисніть кнопку нижче.
+                             </p>
 
                              <div ref={inputWrapper} className={styles.verify__input__wrapper}>
                                  <input id={'1'} onFocus={resetField} onChange={inputAutofocus} maxLength={1} type={'number'} min={0} className={isCodeVerifyError ? styles.verify__inputIfError : styles.verify__input}/>
@@ -198,9 +148,12 @@ const ForgotPassword = () => {
                              <button id={'7'} className={styles.verify__submit} onClick={verifyCode} >
                                  Перевірити
                              </button>
-			         </div>
-		         </Modal>
-             }
+                         </div>
+                     </Modal>
+                 }
+                {step === 3 && <ForgotPasswordStep3 userInputData={userInputData} setUserInputData={setUserInputData}/>}
+	        </div>
+
         </div>
     )
 }

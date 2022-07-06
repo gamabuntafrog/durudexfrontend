@@ -1,123 +1,46 @@
 import './App.scss';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import React, { useEffect, useMemo, useState} from 'react';
-import { Navigate, Route, Routes} from 'react-router-dom';
-import {useLazyQuery} from "@apollo/client";
-import {Context} from "./index";
-import {GET_USER} from "./query/user";
-import {tokens as importedTokens} from "./index";
-import ForgotPassword from "./Components/ForgotPassword";
-import { userType } from './types/user';
+import React, { useEffect, useState} from 'react';
+import {
+    ApolloClient,
+    ApolloLink,
+    ApolloProvider,
+    HttpLink,
+    InMemoryCache,
+    useApolloClient,
+} from "@apollo/client";
 import {tokensType} from "./types/auth";
-import Login from "./Components/Login";
-import Auth from "./Components/Auth";
-import Header from "./Components/Header";
-import User from "./Components/User";
-import Posts from "./Components/Posts";
-import Post from "./Components/Post";
-import Loader from "./Components/Loader";
+import Main from "./Components/Main";
+
+
 
 function App() {
 
-    const randomId = Math.floor(Math.random() * 1000)
-    const [fetchUser, {data: userData, loading: userLoading, error: userError}] = useLazyQuery(GET_USER)
+    const storageTokens = localStorage.getItem('tokens');
+    const [tokens, setTokens] = useState<tokensType | null>(storageTokens ? JSON.parse(storageTokens) : null);
 
-    const [user, setUser] = useState<userType | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [tokens, setTokens] = useState<tokensType | null>(null);
+    const httpLink = new HttpLink({ uri: 'https://api.dev.durudex.com/query' });
+    const authLink = new ApolloLink((operation, forward) => {
+        operation.setContext({
+            headers: tokens ?
+                {
+                    Authorization: `Bearer ${tokens.accessToken}`
+                } : {}
+        })
+        return forward(operation)
+    })
 
-    useEffect(() => {
-        if (importedTokens) {
-            setTokens(JSON.parse(importedTokens))
-            fetchUser()
-        } else {
-            setIsLoading(false)
-        }
-    }, []);
-
-    useEffect(() => {
-        if (userData) {
-            setUser(userData.me)
-            setIsLoading(false)
-
-        }
-
-    }, [userData]);
+    const client = useApolloClient(new ApolloClient({
+        link: authLink.concat(httpLink),
+        cache: new InMemoryCache(),
+    }))
 
 
-    const memoUser = useMemo(() => (user), [user])
-
-    if (user) {
-        return (
-            <Context.Provider value={{
-                user: memoUser,
-                tokens,
-                isLoading,
-                setIsLoading,
-                getTokens: (tokens) => {
-                    setTokens(tokens)
-                },
-                getUser: (data) => {
-                    setUser(data)
-                }
-            }}>
-
-                <div className="App">
-                    <Header/>
-                    <Routes>
-                        <Route path={'post/:id'} element={<Post/>} />
-                        <Route path={'post'} element={<Navigate to={`/post/${randomId}`} replace />} />
-                        <Route path={'user'} element={<User/>}/>
-                        <Route path={'/'} element={<Posts/>}/>
-                        <Route
-                            path="*"
-                            element={<Navigate to="/post" replace />}
-                        />
-                    </Routes>
-                </div>
-                {isLoading && <Loader/>}
-            </Context.Provider>
-
-        );
-    } else {
-        return (
-            <Context.Provider value={{
-                user: memoUser,
-                tokens,
-                isLoading,
-                setIsLoading,
-                getTokens: (tokens) => {
-                    setTokens(tokens)
-                },
-                getUser: (data) => {
-                    setUser(data)
-                }
-            }}>
-
-                <div className="App">
-                    <Header/>
-                    <main>
-                    <Routes>
-                        <Route path={'post/:id'} element={<Post/>} />
-                        <Route path={'post'} element={<Navigate to={`/post/${randomId}`} replace />} />
-                        <Route path={'login'} element={<Login/>}/>
-                        <Route path={'auth'} element={<Auth/>}/>
-                        <Route path={'forgotPassword'} element={<ForgotPassword/>}/>
-                        <Route path={'/'} element={<Posts/>}/>
-                        <Route
-                            path="*"
-                            element={<Navigate to="/post" replace />}
-                        />
-                    </Routes>
-                    </main>
-
-                </div>
-                {isLoading && <Loader/>}
-            </Context.Provider>
-
-        );
-    }
-
+    return (
+        <ApolloProvider client={client}>
+            <Main tokens={tokens} setTokens={setTokens}/>
+        </ApolloProvider>
+    )
 
 }
 
