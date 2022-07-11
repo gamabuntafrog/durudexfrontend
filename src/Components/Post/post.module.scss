@@ -6,7 +6,7 @@
     margin: 0 auto;
     //border-radius: 5px;
     padding: 20px 0;
-    height: calc(100vh - 100px);
+    //height: calc(100vh - 100px);
     >h1{
         font-size: 50px;
     }
@@ -88,4 +88,15 @@
 
 .post__loading {
     margin-top: 100px;
+}
+
+@media screen and (max-width: 768px) {
+    .Post {
+        max-width: 90vw;
+        border-radius: 0 0 10px 10px;
+    }
+    .post__card {
+        padding: 0;
+        height: 100%;
+    }
 }

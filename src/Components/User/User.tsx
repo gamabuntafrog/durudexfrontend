@@ -11,7 +11,6 @@ const User: FC = () => {
     const {user, tokens, getUser, getTokens, isLoading, setIsLoading} = useContext(Context)!;
     const [logOut, {data, loading, error}] = useMutation(LOGOUT)
 
-
     const navigate = useNavigate()
 
     const tryLogOut = () => {

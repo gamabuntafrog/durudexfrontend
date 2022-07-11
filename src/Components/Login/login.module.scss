@@ -209,10 +209,13 @@ $second: #4F506A;
   }
 }
 
-@media screen and (max-height: 720px) {
+@media screen and (max-height: 900px) {
   .Login {
     h1 {
       margin-top: 20px;
+    }
+    .login__submit {
+      margin-top: 40px;
     }
   }
 }

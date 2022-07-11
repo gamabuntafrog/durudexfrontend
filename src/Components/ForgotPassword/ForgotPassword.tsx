@@ -18,43 +18,44 @@ export type userInputDataType = {
     newPassword: string,
 }
 
+enum resetPasswordSteps {
+    emailForm = 1,
+    verifyEmail = 2,
+    passwordForm = 3
+}
+
 let regexForEmail = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])");
 
 const ForgotPassword: FC = () => {
 
     const emailId = useId()
 
-    const [tryCreateVerify, {data, loading, error}] = useMutation(CREATE_VERIFY_EMAIL_CODE)
+    const [tryCreateVerify, {data, loading, error}] = useMutation(CREATE_VERIFY_EMAIL_CODE, {
+        onCompleted: ({createVerifyEmailCode}: {createVerifyEmailCode: boolean} ) => {
+            if (createVerifyEmailCode) {
+                setStep(resetPasswordSteps.verifyEmail)
+            }
+        },
+        onError: (error) => {
+            console.log(error)
+        }
+    })
 
     const [userInputData, setUserInputData] = useState<userInputDataType>({email: "", code: "", newPassword: ""});
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState<resetPasswordSteps>(resetPasswordSteps.emailForm);
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Input>({mode: "onBlur"});
 
-    const inputWrapper = useRef<HTMLDivElement | null>(null)!
-
-    console.log(errors.email)
+    const inputWrapper = useRef<HTMLDivElement | null>(null)
 
     const onSubmitEmail: SubmitHandler<Input> = ({email}) => {
-        if (regexForEmail.test(watch('email'))) {
-            tryCreateVerify({
-                variables: {
-                    email: email
-                }
-            })
-            setUserInputData(prev => {return {...prev, email: email}})
-        }
+        tryCreateVerify({
+            variables: {
+                email: email
+            }
+        })
+        setUserInputData(prev => {return {...prev, email: email}})
     }
-
-    useEffect(() => {
-        if (data) {
-            setStep(2)
-        }
-        if (error) {
-            console.log(error)
-            alert('Сталася помилка')
-        }
-    }, [data, error]);
 
     const inputAutofocus = (e: ChangeEvent<HTMLInputElement>) => {
         const id = Number(e.target.id)
@@ -84,17 +85,14 @@ const ForgotPassword: FC = () => {
                     isEmpty = true
                 }
                 code = `${code}${input.value}`
-
-
             })
+            //тут додаються всі цифри з шести інпутів і перевіряється чи ніхто з них не пустий
             if (isEmpty) {
                 setIsCodeVerifyError(true)
             } else {
                 setUserInputData(prev => {return {...prev, code: code}})
-                setStep(3)
+                setStep(resetPasswordSteps.passwordForm)
             }
-
-
         }
     }
 

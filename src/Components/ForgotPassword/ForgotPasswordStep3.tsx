@@ -18,15 +18,22 @@ type ForgotPasswordStep3PropTypes = {
 
 const ForgotPasswordStep3: FC<ForgotPasswordStep3PropTypes> = ({userInputData, setUserInputData}) => {
 
-    const [tryChangePassword, {data: passwordData, loading: passwordLoading, error: passwordError}] = useMutation(CHANGE_PASSWORD)
+    const [tryChangePassword, {data, loading, error}] = useMutation(CHANGE_PASSWORD,{
+        onCompleted: ({forgotPassword}: {forgotPassword: boolean}) => {
+            if (forgotPassword) {
+                navigate('/auth')
+            }
+        },
+        onError: (error) => {
+            console.log(error)
+        }
+    })
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<PasswordInputs>();
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<PasswordInputs>({mode: "onBlur"});
 
     const navigate = useNavigate();
 
     const onSubmitPassword: SubmitHandler<PasswordInputs> = ({passwordOne, passwordTwo}) => {
-        console.log(passwordOne);
-
         if (passwordOne === passwordTwo) {
             setUserInputData(prev => {return {...prev, newPassword: passwordOne}})
             tryChangePassword({
@@ -36,18 +43,13 @@ const ForgotPasswordStep3: FC<ForgotPasswordStep3PropTypes> = ({userInputData, s
                     password: passwordOne
                 }
             })
-            navigate('/auth')
         }
 
     }
 
-    useEffect(() => {
-        console.log(passwordData)
-    }, [passwordData])
-
     const isPasswordEqual = watch('passwordOne') === watch('passwordTwo')
-    const classNameLabelOnVerify = !isPasswordEqual ? styles.fieldsAreRequired : errors.passwordOne ? styles.fieldsAreRequired : ''
-    const classNamePasswordInputOnVerify = !isPasswordEqual ? styles.inputIfError : errors.passwordOne ? styles.inputIfError : ''
+    const classNameLabelOnVerify = !isPasswordEqual ? styles.fieldsAreRequired : (errors.passwordOne || errors.passwordTwo) ? styles.fieldsAreRequired : ''
+    const classNamePasswordInputOnVerify = !isPasswordEqual ? styles.inputIfError : (errors.passwordOne || errors.passwordTwo) ? styles.inputIfError : ''
 
     return (
         <div className={styles.leftAside}>
@@ -56,12 +58,12 @@ const ForgotPasswordStep3: FC<ForgotPasswordStep3PropTypes> = ({userInputData, s
                 <label className={classNameLabelOnVerify}>Password</label>
                 <input className={classNamePasswordInputOnVerify} placeholder={'Password'} type={'password'} {...register("passwordOne",
                     {
-                        required: 'Поле обовязкове для заповнення',
+                        required: true,
                         minLength: 8
                     })} />
                 <label className={classNameLabelOnVerify}>Return password</label>
                 <input className={classNamePasswordInputOnVerify} placeholder={'Return password'} type={'password'} {...register("passwordTwo", {
-                    required: 'Поле обовязкове для заповнення',
+                    required: true,
                     minLength: 8
                 })} />
                 {!isPasswordEqual ?
