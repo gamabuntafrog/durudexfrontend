@@ -60,12 +60,15 @@
   transform: skewY(345deg);
 
   position: relative;
+
   &:nth-child(even) {
-    animation: animatePosition 6s ease-in-out  infinite;
+    animation: animatePosition 6s ease-in-out infinite;
   }
+
   &:nth-child(odd) {
     animation: reverseAnimatePosition 6s ease-in-out infinite;
   }
+
   h2 {
     -webkit-text-stroke: 7px #80D0C7;
     font-weight: 500;

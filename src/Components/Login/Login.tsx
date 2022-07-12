@@ -1,5 +1,5 @@
 import styles from './login.module.scss'
-import { useForm, SubmitHandler } from "react-hook-form";
+import {useForm, SubmitHandler} from "react-hook-form";
 import React, {useEffect, useContext, FC} from "react"
 import {NavLink, useNavigate} from "react-router-dom";
 import {GET_USER, LOGIN} from '../../query/user'
@@ -19,15 +19,16 @@ let regexForEmail = new RegExp('^[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*$')
 // щоб якщо екран гіно можна було скролити 
 
 const Login: FC = () => {
-    const context = useContext(Context)!
+    const {getUser, getTokens} = useContext(Context)!
 
     const [fetchUser, {data: userData, loading: userLoading, error: userError}] = useLazyQuery(GET_USER, {
-        onCompleted: (userData: {me: userType}) => {
-            // setUser(userData.me)
-            // setIsLoading(false)
+        onCompleted: (userData: { me: userType }) => {
+            getUser(userData.me)
+            navigate('/', {replace: true})
         },
         fetchPolicy: 'network-only'
     })
+
     const [tryLogin, {data, loading, error}] = useMutation(LOGIN, {
         onCompleted: (data) => {
             const {access, refresh} = data.signIn
@@ -35,14 +36,14 @@ const Login: FC = () => {
                 accessToken: access,
                 refreshToken: refresh
             }
-            context.getTokens(tokens)
+            getTokens(tokens)
 
             localStorage.setItem('tokens', JSON.stringify(tokens))
             fetchUser()
         }
     });
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<Inputs>();
+    const {register, handleSubmit, watch, formState: {errors}} = useForm<Inputs>();
 
     const isUsernameInputEmpty: boolean = watch('username') === ''
     const isValidUsername = isUsernameInputEmpty ? true : regexForEmail.test(watch('username'))
@@ -61,17 +62,7 @@ const Login: FC = () => {
         }
     };
 
-
-    useEffect(() => {
-        if (data) {
-
-            navigate('/', { replace: true })
-            // document.location.reload()
-        }
-    }, [data]);
-
-    const classNameOnVerify = !isValidUsername  ? styles.inputIfError : errors.username ? styles.inputIfError : ''
-
+    const classNameOnVerify = !isValidUsername ? styles.inputIfError : errors.username ? styles.inputIfError : ''
 
     return (
         <section className={styles.Login}>
@@ -88,8 +79,8 @@ const Login: FC = () => {
                         {errors.username?.message ?
                             <label className={styles.fieldsAreRequired}>{errors.username?.message}</label> :
                             !isValidUsername ?
-                            <label className={styles.fieldsAreRequired}>Нік містить недопустимі символи</label> :
-                            <label>Username</label>
+                                <label className={styles.fieldsAreRequired}>Нік містить недопустимі символи</label> :
+                                <label>Username</label>
                         }
                         <input className={classNameOnVerify} placeholder={'Username'} {...register("username", {
                             required: 'Це поле обовязкове до заповнення',
@@ -101,17 +92,19 @@ const Login: FC = () => {
                             <label className={styles.fieldsAreRequired}>{errors.password?.message}</label> :
                             <label>Password</label>
                         }
-                        <input className={errors.password && styles.inputIfError} placeholder={'Password'} {...register("password", {
+                        <input className={errors.password && styles.inputIfError}
+                               placeholder={'Password'} {...register("password", {
                             required: 'Це поле обовязкове до заповнення',
-                            minLength: {value: 8, message: 'Занадто короткий пароль'}  })}
-                           type={'password'}
+                            minLength: {value: 8, message: 'Занадто короткий пароль'}
+                        })}
+                               type={'password'}
                         />
 
                         <NavLink className={styles.forgotPasswordLink} to={'/forgotPassword'}>
                             Забули пароль?
                         </NavLink>
 
-                        <button className={styles.login__submit} type="submit" >
+                        <button className={styles.login__submit} type="submit">
                             Увійти
                         </button>
                         <NavLink className={styles.dontHave__account} to={'/'}>

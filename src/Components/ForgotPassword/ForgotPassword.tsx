@@ -119,7 +119,7 @@ const ForgotPassword: FC = () => {
                                     value: regexForEmail,
                                     message: 'Неправильний емейл'
                                 },
-
+                                required: 'Неправильний емейл'
                             })} />
 
                             <button className={styles.email__submit} type="submit" >
