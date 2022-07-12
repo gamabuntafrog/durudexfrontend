@@ -10,17 +10,17 @@ const LoginBackground: FC<LoginBackgroundBackgroundProps> = ({username = ''}) =>
 
     const screen: screenTypes = useGetTypeOfScreen()
 
-    let amountOfColumns
+    let amountOfColumns: number[]
 
     switch (screen) {
         case screenTypes.largeType:
-            amountOfColumns = [1,2,3,4,5,6]
+            amountOfColumns = [1,2,3,4,5,]
             break
         case screenTypes.mediumType:
             amountOfColumns = [1,2,3,4]
             break
         case screenTypes.smallType:
-            amountOfColumns = [1,2]
+            amountOfColumns = []
             break
         default:
             amountOfColumns = [1,2,3,4]
@@ -29,9 +29,9 @@ const LoginBackground: FC<LoginBackgroundBackgroundProps> = ({username = ''}) =>
 
     username = `@${username}`
 
-    return <>
+    return <div className={styles.loginBackgroundWrapper}>
         {amountOfColumns.map((_, index) => {
-            return  <div key={index} className={styles.text}>
+            return  <div  key={index} className={styles.text}>
                 <h2>Welcome {username}</h2>
                 <h2>{username}</h2>
                 <h2>Welcome {username}</h2>
@@ -45,7 +45,7 @@ const LoginBackground: FC<LoginBackgroundBackgroundProps> = ({username = ''}) =>
                 <h2>Welcome {username}</h2>
             </div>
         })}
-    </>
+    </div>
 
 }
 

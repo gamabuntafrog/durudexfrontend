@@ -16,6 +16,7 @@ import User from "../../Components/User";
 import Posts from "../../Components/Posts";
 import Post from "../../Components/Post";
 import Loader from "../../Components/Loader";
+import styles from "./main.module.scss";
 
 type MainPropsTypes = {
     tokens: tokensType | null,
@@ -65,16 +66,18 @@ const Main: FC<MainPropsTypes> = ({tokens, setTokens}) => {
             }}>
                 <div className="App">
                     <Header/>
-                    <Routes>
-                        <Route path={'post/:id'} element={<Post/>} />
-                        <Route path={'post'} element={<Navigate to={`/post/${randomId}`} replace />} />
-                        <Route path={'user'} element={<User/>}/>
-                        <Route path={'/'} element={<Posts/>}/>
-                        <Route
-                            path="*"
-                            element={<Navigate to="/post" replace />}
-                        />
-                    </Routes>
+                    <main>
+                        <Routes>
+                            <Route path={'post/:id'} element={<Post/>} />
+                            <Route path={'post'} element={<Navigate to={`/post/${randomId}`} replace />} />
+                            <Route path={'user'} element={<User/>}/>
+                            <Route path={'/'} element={<Posts/>}/>
+                            <Route
+                                path="*"
+                                element={<Navigate to="/post" replace />}
+                            />
+                        </Routes>
+                    </main>
                 </div>
                 {isLoading && <Loader/>}
             </Context.Provider>
@@ -97,18 +100,18 @@ const Main: FC<MainPropsTypes> = ({tokens, setTokens}) => {
                 <div className="App">
                     <Header/>
                     <main>
-                    <Routes>
-                        <Route path={'post/:id'} element={<Post/>} />
-                        <Route path={'post'} element={<Navigate to={`/post/${randomId}`} replace />} />
-                        <Route path={'login'} element={<Login/>}/>
-                        <Route path={'auth'} element={<Auth/>}/>
-                        <Route path={'forgotPassword'} element={<ForgotPassword/>}/>
-                        <Route path={'/'} element={<Posts/>}/>
-                        <Route
-                            path="*"
-                            element={<Navigate to="/post" replace />}
-                        />
-                    </Routes>
+                        <Routes>
+                            <Route path={'post/:id'} element={<Post/>} />
+                            <Route path={'post'} element={<Navigate to={`/post/${randomId}`} replace />} />
+                            <Route path={'login'} element={<Login/>}/>
+                            <Route path={'auth'} element={<Auth/>}/>
+                            <Route path={'forgotPassword'} element={<ForgotPassword/>}/>
+                            <Route path={'/'} element={<Posts/>}/>
+                            <Route
+                                path="*"
+                                element={<Navigate to="/post" replace />}
+                            />
+                        </Routes>
                     </main>
 
                 </div>

@@ -22,7 +22,11 @@
   min-height: 100px;
   display: flex;
   align-items: center;
-
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 200;
   nav {
     width: 100%;
   }

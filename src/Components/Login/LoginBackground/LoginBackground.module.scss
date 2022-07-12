@@ -35,18 +35,31 @@
   }
 }
 
+.loginBackgroundWrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
 .text {
   filter: blur(1px);
-  height: calc(100vh);
   white-space: nowrap;
   pointer-events: none;
   text-shadow: 0 0 10px #fff;
-  font-size: 35px;
+  font-size: 50px;
 
   display: inline-block;
-  margin: 20px;
+  //margin: 10px;
   transform: skewY(345deg);
 
+  position: relative;
   &:nth-child(even) {
     animation: animatePosition 6s ease-in-out  infinite;
   }
@@ -54,10 +67,10 @@
     animation: reverseAnimatePosition 6s ease-in-out infinite;
   }
   h2 {
-    -webkit-text-stroke: 5px #80D0C7;
+    -webkit-text-stroke: 7px #80D0C7;
     font-weight: 500;
     padding: 25px;
-    margin: 25px;
+    //margin: 25px;
     box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.25);
     animation: animateColor 3s ease-in-out infinite;
     transition: 1s;
@@ -71,10 +84,10 @@
 @media screen and (max-width: 768px) {
   .text {
     white-space: normal;
-    font-size: 25px;
+    font-size: 55px;
 
     h2 {
-      -webkit-text-stroke: 3px #80D0C7;
+      -webkit-text-stroke: 8px #80D0C7;
     }
   }
 }

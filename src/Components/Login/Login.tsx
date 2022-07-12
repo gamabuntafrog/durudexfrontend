@@ -15,6 +15,9 @@ type Inputs = {
 
 let regexForEmail = new RegExp('^[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*$')
 
+// зробити щоб можна було обійтисб без overflow
+// щоб якщо екран гіно можна було скролити 
+
 const Login: FC = () => {
     const context = useContext(Context)!
 

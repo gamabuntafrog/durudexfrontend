@@ -47,6 +47,7 @@ const ForgotPassword: FC = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm<Input>({mode: "onBlur"});
 
     const inputWrapper = useRef<HTMLDivElement | null>(null)
+    const submitRef = useRef<HTMLButtonElement | null>(null)
 
     const onSubmitEmail: SubmitHandler<Input> = ({email}) => {
         tryCreateVerify({
@@ -60,11 +61,12 @@ const ForgotPassword: FC = () => {
     const inputAutofocus = (e: ChangeEvent<HTMLInputElement>) => {
         const id = Number(e.target.id)
 
-        if (id === 7) {
-            return
-        }
         if (e.target.value.length >= 0) {
-            document.getElementById(`${id + 1}`)!.focus()
+            if (id === 6) {
+                submitRef.current?.focus()
+            } else {
+                document.getElementById(`${id + 1}`)!.focus()
+            }
         }
     }
 
@@ -143,7 +145,7 @@ const ForgotPassword: FC = () => {
                                  <input id={'5'} onFocus={resetField} onChange={inputAutofocus} maxLength={1} type={'number'} min={0} className={isCodeVerifyError ? styles.verify__inputIfError : styles.verify__input}/>
                                  <input id={'6'} onFocus={resetField} onChange={inputAutofocus} maxLength={1} type={'number'} min={0} className={isCodeVerifyError ? styles.verify__inputIfError : styles.verify__input}/>
                              </div>
-                             <button id={'7'} className={styles.verify__submit} onClick={verifyCode} >
+                             <button ref={submitRef} className={styles.verify__submit} onClick={verifyCode} >
                                  Перевірити
                              </button>
                          </div>
